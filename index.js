@@ -4,6 +4,9 @@
     const note = new Note(title, text, color);
     notes.push(note);
     view.notes.addNote(note);
+    view.notes.addNote(note);
+    view.notes.addNote(note);
+    view.notes.addNote(note);
   }
 
   window.app = {
