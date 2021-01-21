@@ -91,7 +91,7 @@
         this.nodes.removeButton = null;
 
         this.nodes.saveButton = element('div', {class: 'note__save-button'}, null, '	&#10004;');
-        this.nodes.saveButton.addEventListener('click', () => this.saveNote(), false);
+        this.nodes.saveButton.addEventListener('click', () => this.nodes.form.requestSubmit(), false);
         this.nodes.buttonsContainer.appendChild(this.nodes.saveButton);
 
         this.nodes.cancelButton = element('div', {class: 'note__cancel-button'}, null, '&#10006;');
