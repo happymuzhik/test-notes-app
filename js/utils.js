@@ -2,7 +2,7 @@
   const colorOptions = ['#DEE96D', '#E190FF', '#FFF'];
   const DEFAULT_SIZE = 200;
   const MIN_SIZE = 150;
-  const MAX_SIZE = 400;
+  const MAX_SIZE = 700;
 
   const element = function(el, attr, style, content){
     const node = document.createElement(el);

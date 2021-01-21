@@ -29,6 +29,8 @@
       this.nodes.form.appendChild(this.nodes.titleInput);
       this.nodes.form.appendChild(this.nodes.textInput);
       this.nodes.itemsContainer.appendChild(this.nodes.form);
+
+      this.nodes.form.addEventListener('submit', (e) => this.onFormSubmit(e), false);
     }
 
     renderBody() {
@@ -165,6 +167,11 @@
       }
     }
 
+    onFormSubmit(e) {
+      e.preventDefault();
+      this.saveNote();
+    }
+
     removeNote() {
       const {removeNote} = this.handlers;
       removeNote(this.id);
@@ -198,20 +205,20 @@
     addNote(note, handlers, isEditing) {
       const noteHandlers = {
         ...handlers,
-        getZindex: (zIndex) => this.getZindex(zIndex)
+        getZindex: () => this.getZindex()
       }
       const newNote = new Note(note, noteHandlers, isEditing);
       this.notes[note.id] = newNote;
       this.rootNode.appendChild(newNote.rootNode);
     }
 
-    getZindex(zIndex) {
+    getZindex() {
       let maxZindex = 0;
       for (const id in this.notes) {
         const note = this.notes[id];
         if (note.data.zIndex > maxZindex) maxZindex = note.data.zIndex;
       }
-      return (zIndex === maxZindex) ? zIndex : maxZindex + 10;
+      return maxZindex + 1;
     }
 
     removeNote(id) {
