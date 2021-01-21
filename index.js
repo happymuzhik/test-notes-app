@@ -14,8 +14,8 @@
     appLocalStorage.set('notes', notes);
   }
 
-  const addNote = ({title, text, color, size, position}, isEditing = true) => {
-    const note = new Note({title, text, color, size, position});
+  const addNote = ({title, text, color, size, position, zIndex}, isEditing = true) => {
+    const note = new Note({title, text, color, size, position, zIndex});
     notes[note.id] = (note);
     view.notes.addNote(note, {
       removeNote,

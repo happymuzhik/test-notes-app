@@ -9,6 +9,7 @@
       color = main,
       size = [DEFAULT_SIZE, DEFAULT_SIZE],
       position = [50, 50],
+      zIndex = 10,
     }) {
       this.id = generateID('note');
       this.title = title;
@@ -17,15 +18,16 @@
       this.colorOptions = colorOptions;
       this.size = size;
       this.position = position;
+      this.zIndex = zIndex;
     }
 
-    save({title, text, color, size, position}) {
+    save({title, text, color, size, position, zIndex}) {
       this.title = title;
       this.text = text;
       this.color = color;
       this.size = size;
       this.position = position;
-      console.log('Note saved!', this);
+      this.zIndex = zIndex;
     }
   }
 
