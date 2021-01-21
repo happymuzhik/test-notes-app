@@ -121,7 +121,7 @@
       const {dragArea, resizeArea} = this.nodes;
       if ([dragArea, resizeArea].includes(e.target)) {
         const {left, top, width, height} = this.rootNode.style;
-        this.data.position = [parseInt(left, 10), parseInt(top, 10)];
+        this.data.position = [parseInt(top, 10), parseInt(left, 10)];
         this.data.size = [parseInt(width, 10), parseInt(height, 10)];
         this.updateNote();
       }
