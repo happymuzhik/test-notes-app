@@ -16,19 +16,19 @@
       return false;
     }
 
-    currentNode = this;
+    currentNode = e.currentTarget;
 
-    this.classList.add('note--is-moving');
+    e.currentTarget.classList.add('note--is-moving');
     ROOT.classList.add('root--is-moving');
 
-    const position = getNodePosition(this);
+    const position = getNodePosition(e.currentTarget);
     shiftX = e.pageX - position.left;
     shiftY = e.pageY - position.top;
     document.addEventListener('mousemove', moveNode, false);
   }
 
-  function handleMouseUp() {
-    this.classList.remove('note--is-moving');
+  function handleMouseUp(e) {
+    e.currentTarget.classList.remove('note--is-moving');
     ROOT.classList.remove('root--is-moving');
     currentNode = null;
     document.removeEventListener('mousemove', moveNode, false);

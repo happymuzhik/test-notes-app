@@ -29,21 +29,21 @@
       return false;
     }
 
-    currentNode = this;
+    currentNode = e.currentTarget;
 
-    this.classList.add('note--is-moving');
+    e.currentTarget.classList.add('note--is-moving');
     ROOT.classList.add('root--is-moving');
 
     startX = e.clientX;
     startY = e.clientY;
-    startWidth = parseInt(document.defaultView.getComputedStyle(this).width, 10);
-    startHeight = parseInt(document.defaultView.getComputedStyle(this).height, 10);
+    startWidth = parseInt(document.defaultView.getComputedStyle(e.currentTarget).width, 10);
+    startHeight = parseInt(document.defaultView.getComputedStyle(e.currentTarget).height, 10);
 
     document.documentElement.addEventListener('mousemove', resizeNode, false);
   }
 
   function stopResize(e) {
-    this.classList.remove('note--is-moving')
+    e.currentTarget.classList.remove('note--is-moving')
     ROOT.classList.remove('root--is-moving')
     currentNode = null;
     document.documentElement.removeEventListener('mousemove', resizeNode, false);

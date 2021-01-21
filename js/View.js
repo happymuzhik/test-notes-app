@@ -50,6 +50,9 @@
           backgroundColor: this.data.color,
         };
         this.rootNode = element('div', {class: 'note'}, style);
+
+        this.rootNode.addEventListener('mousedown', (e) => this.onDragStart(e), false);
+        this.rootNode.addEventListener('mouseup', (e) => this.onDragEnd(e), false);
       }
 
       this.nodes.itemsContainer = element('div', {class: 'note__items-container'});
@@ -104,11 +107,24 @@
       }
 
       this.rootNode.appendChild(this.nodes.itemsContainer);
+    }
 
-      this.rootNode.addEventListener('mousedown', handleMouseDown, false);
-      this.rootNode.addEventListener('mouseup', handleMouseUp, false);
-      this.rootNode.addEventListener('mousedown', handleResize, false);
-      this.rootNode.addEventListener('mouseup', stopResize, false);
+    onDragStart(e) {
+      handleMouseDown(e);
+      handleResize(e);
+    }
+
+    onDragEnd(e) {
+      handleMouseUp(e);
+      stopResize(e);
+
+      const {dragArea, resizeArea} = this.nodes;
+      if ([dragArea, resizeArea].includes(e.target)) {
+        const {left, top, width, height} = this.rootNode.style;
+        this.data.position = [parseInt(left, 10), parseInt(top, 10)];
+        this.data.size = [parseInt(width, 10), parseInt(height, 10)];
+        this.updateNote();
+      }
     }
 
     switchColor(color) {
