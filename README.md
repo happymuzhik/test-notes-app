@@ -10,4 +10,4 @@
 
 ## Launch
 
-To launch application just open index.html =)
+To launch application just open index.html.
