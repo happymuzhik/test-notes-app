@@ -47,6 +47,8 @@ html, body, body * {
   width: 100%;
   top: 0;
   left: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .note__resize-area {
@@ -61,15 +63,29 @@ html, body, body * {
   border-right: 10px solid rgba(0, 0, 0, 0.4);
 }
 
+.note__buttons-container {
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+}
+
+.note__buttons-container > div {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.note__color-options {
+  display: flex;
+  padding-top: 2px;
+}
+
 .note__color-option {
-  position: absolute;
-  left: 0;
-  top: 2px;
   height: 10px;
   width: 10px;
   border-radius: 50%;
   cursor: pointer;
   border: 1px solid #CCC;
+  margin-left: 5px;
 }
 
 .root--is-moving .note {

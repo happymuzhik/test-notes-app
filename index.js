@@ -1,10 +1,19 @@
 (function() {
-  const notes = [];
+  const notes = {};
+
+  const removeNote = (id) => {
+    delete(notes[id]);
+    view.notes.removeNote(id);
+  }
+
   const addNote = (title, text, color) => {
     const note = new Note(title, text, color);
-    notes.push(note);
-    view.notes.addNote(note);
+    notes[note.id] = (note);
+    view.notes.addNote(note, {
+      removeNote,
+    });
   }
+
 
   window.app = {
     notes,

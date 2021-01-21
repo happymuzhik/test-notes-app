@@ -1,9 +1,10 @@
 (function() {
-  const {colorOptions} = utils;
+  const {colorOptions, generateID} = utils;
   const [main, alt1, alt2] = colorOptions;
 
   class Note {
     constructor(title, text, color = main) {
+      this.id = generateID('note');
       this.title = title;
       this.text = text;
       this.color = color;

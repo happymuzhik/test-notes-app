@@ -1,6 +1,5 @@
 (function() {
-  const MIN_SIZE = 150;
-  const MAX_SIZE = 400;
+  const {MIN_SIZE, MAX_SIZE} = utils;
   const ROOT = document.getElementById('root');
 
   let startX = null;

@@ -1,7 +1,10 @@
 (function() {
   const colorOptions = ['#DEE96D', '#E190FF', '#FFF'];
+  const DEFAULT_SIZE = 200;
+  const MIN_SIZE = 150;
+  const MAX_SIZE = 400;
 
-  const element = function(el, attr, style, text){
+  const element = function(el, attr, style, content){
     const node = document.createElement(el);
 
     if (attr && typeof attr == 'object'){
@@ -16,8 +19,8 @@
       };
     }
 
-    if (text && typeof text == 'string'){
-      node.innerText = text;
+    if (content){
+      node.innerHTML = content;
     }
 
     return node;
@@ -31,9 +34,17 @@
     };
   }
 
+  const generateID = (prefix = 'id') => (
+    `${prefix}-${Math.random().toString(36).substr(2, 9)}`
+  );
+
   window.utils = {
     colorOptions,
+    DEFAULT_SIZE,
+    MIN_SIZE,
+    MAX_SIZE,
     element,
     getNodePosition,
+    generateID,
   }
 })();
