@@ -1,5 +1,5 @@
 (function() {
-  const {element} = utils;
+  const {element, colorOptions} = utils;
   const {handleMouseDown, handleMouseUp} = dragUtils;
   const {handleResize, stopResize} = resizeUtils;
 
@@ -27,6 +27,20 @@
       itemsContainer.appendChild(element('p', {class: 'note__body'}, null, this.text));
       itemsContainer.appendChild(dragArea);
       itemsContainer.appendChild(resizeArea);
+
+      colorOptions.forEach((color, i) => {
+        const style = {
+          left: `${15 * i}px`,
+          backgroundColor: color,
+        }
+        const colorNode = element('div', {class: 'note__color-option'}, style);
+        colorNode.addEventListener('click', () => {
+          this.color = color;
+          this.node.style.backgroundColor = color;
+        });
+        itemsContainer.appendChild(colorNode);
+      });
+
       this.node.appendChild(itemsContainer);
 
       this.node.addEventListener('mousedown', handleMouseDown, false);

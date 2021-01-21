@@ -1,5 +1,5 @@
 (function() {
-  const colorOptions = ['#DEE96D', '#F40', '#FFF'];
+  const {colorOptions} = utils;
   const [main, alt1, alt2] = colorOptions;
 
   class Note {

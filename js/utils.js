@@ -1,4 +1,6 @@
 (function() {
+  const colorOptions = ['#DEE96D', '#E190FF', '#FFF'];
+
   const element = function(el, attr, style, text){
     const node = document.createElement(el);
 
@@ -30,6 +32,7 @@
   }
 
   window.utils = {
+    colorOptions,
     element,
     getNodePosition,
   }
