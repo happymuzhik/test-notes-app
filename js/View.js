@@ -1,6 +1,7 @@
 (function() {
   const {element} = utils;
   const {handleMouseDown, handleMouseUp} = dragUtils;
+  const {handleResize, stopResize} = resizeUtils;
 
   class Note {
     render() {
@@ -30,6 +31,8 @@
 
       this.node.addEventListener('mousedown', handleMouseDown, false);
       this.node.addEventListener('mouseup', handleMouseUp, false);
+      this.node.addEventListener('mousedown', handleResize, false);
+      this.node.addEventListener('mouseup', stopResize, false);
     }
 
     constructor({title, text, color}) {

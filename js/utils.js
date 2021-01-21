@@ -21,7 +21,7 @@
     return node;
   };
 
-  const getNodePosition = (node) => {   // кроме IE8-
+  const getNodePosition = (node) => {
     var box = node.getBoundingClientRect();
     return {
       top: box.top + pageYOffset,
