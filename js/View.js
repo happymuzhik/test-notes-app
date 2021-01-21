@@ -125,7 +125,7 @@
         this.data.position = [parseInt(top, 10), parseInt(left, 10)];
         this.data.size = [parseInt(width, 10), parseInt(height, 10)];
 
-        const zIndex = this.handlers.getZindex();
+        const zIndex = this.handlers.getZindex(this.data.zIndex);
         this.data.zIndex = zIndex;
         this.rootNode.style.zIndex = zIndex;
 
@@ -198,20 +198,20 @@
     addNote(note, handlers, isEditing) {
       const noteHandlers = {
         ...handlers,
-        getZindex: () => this.getZindex()
+        getZindex: (zIndex) => this.getZindex(zIndex)
       }
       const newNote = new Note(note, noteHandlers, isEditing);
       this.notes[note.id] = newNote;
       this.rootNode.appendChild(newNote.rootNode);
     }
 
-    getZindex() {
+    getZindex(zIndex) {
       let maxZindex = 0;
       for (const id in this.notes) {
         const note = this.notes[id];
         if (note.data.zIndex > maxZindex) maxZindex = note.data.zIndex;
       }
-      return maxZindex + 10;
+      return (zIndex === maxZindex) ? zIndex : maxZindex + 10;
     }
 
     removeNote(id) {
