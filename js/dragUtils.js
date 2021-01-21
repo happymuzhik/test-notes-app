@@ -12,6 +12,10 @@
   }
 
   function handleMouseDown(e) {
+    if (!e.target.classList.contains('note__drag-area')) {
+      return false;
+    }
+
     this.classList.add('note--is-dragging')
 
     currentNode = this;
@@ -25,6 +29,7 @@
   function handleMouseUp() {
     this.classList.remove('note--is-dragging')
     ROOT.classList.remove('root--is-dragging')
+    currentNode = null;
     document.removeEventListener('mousemove', moveNode, false);
   }
 

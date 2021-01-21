@@ -9,23 +9,63 @@ html, body, body * {
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: #FFF;
+}
+
+#notes-container {
   background-color: #333;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 .note {
-  padding: 20px;
   position: absolute;
   z-index: 10;
-  cursor: move;
   box-shadow: 0px 0px 2px 0px #333;
+}
+
+.note__items-container {
+  padding: 20px;
+  position: relative;
+  height: 100%;
 }
 
 .note__title {
   margin-top: 0;
 }
 
+.note__drag-area {
+  cursor: move;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.note__resize-area {
+  cursor: se-resize;
+  position: absolute;
+  background-color: transparent;
+  right: 0;
+  bottom: 0;
+  border-top: 10px solid rgba(255, 255, 255, 0.3);
+  border-left: 10px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+  border-right: 10px solid rgba(0, 0, 0, 0.4);
+}
+
 .root--is-dragging .note {
   opacity: 0.4;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .root--is-dragging .note--is-dragging {

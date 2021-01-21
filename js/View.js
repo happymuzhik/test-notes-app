@@ -17,14 +17,22 @@
         class: 'note',
       }
       this.node = element('div', attr, style);
-      this.node.appendChild(element('h2', {class: 'note__title'}, null, this.title));
-      this.node.appendChild(element('p', {class: 'note__body'}, null, this.text));
+
+      const itemsContainer = element('div', {class: 'note__items-container'});
+      const dragArea = element('div', {class: 'note__drag-area'});
+      const resizeArea = element('div', {class: 'note__resize-area'});
+
+      itemsContainer.appendChild(element('h2', {class: 'note__title'}, null, this.title));
+      itemsContainer.appendChild(element('p', {class: 'note__body'}, null, this.text));
+      itemsContainer.appendChild(dragArea);
+      itemsContainer.appendChild(resizeArea);
+      this.node.appendChild(itemsContainer);
 
       this.node.addEventListener('mousedown', handleMouseDown, false);
       this.node.addEventListener('mouseup', handleMouseUp, false);
     }
 
-    constructor(title, text, color) {
+    constructor({title, text, color}) {
       this.title = title;
       this.text = text;
       this.color = color;
@@ -41,10 +49,10 @@
       this.notes = [];
     }
 
-    addNote({title, text, color}) {
-      const note = new Note(title, text, color);
-      this.notes.push(note);
-      this.node.appendChild(note.node);
+    addNote(note) {
+      const newNote = new Note(note);
+      this.notes.push(newNote);
+      this.node.appendChild(newNote.node);
     }
   }
 
