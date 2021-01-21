@@ -1,6 +1,6 @@
 (function() {
   const colorOptions = ['#DEE96D', '#E190FF', '#FFF'];
-  const DEFAULT_SIZE = 200;
+  const DEFAULT_SIZE = 400;
   const MIN_SIZE = 150;
   const MAX_SIZE = 700;
 
@@ -43,8 +43,8 @@
   }
 
   const getRandomPosition = () => {
-    const top = getRandomNumber(40);
-    const left = getRandomNumber(60);
+    const top = window.innerHeight / 2 - DEFAULT_SIZE / 2 - getRandomNumber(8);
+    const left = window.innerWidth / 2 - DEFAULT_SIZE / 2 - getRandomNumber(9);
     return [top, left];
   }
 
