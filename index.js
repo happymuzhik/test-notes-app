@@ -1,4 +1,6 @@
 (function() {
+  const {getRandomPosition} = utils;
+
   const notes = {};
 
   const removeNote = (id) => {
@@ -12,13 +14,13 @@
     appLocalStorage.set('notes', notes);
   }
 
-  const addNote = ({title, text, color, size, position}) => {
+  const addNote = ({title, text, color, size, position}, isEditing = true) => {
     const note = new Note({title, text, color, size, position});
     notes[note.id] = (note);
     view.notes.addNote(note, {
       removeNote,
       saveNote,
-    });
+    }, isEditing);
 
     appLocalStorage.set('notes', notes);
   }
@@ -28,10 +30,23 @@
     if (typeof storedNotes === 'object') {
       for (const id in storedNotes) {
         const note = storedNotes[id];
-        addNote(note);
+        addNote(note, false);
       }
     }
   }
+
+  const clearNotes = () => {
+    for (const id in notes) {
+      removeNote(id);
+    }
+  }
+
+  view.controls.addButton('Add Note', () => {
+    const position = getRandomPosition();
+    addNote({title: 'New Note', position}, true)
+  });
+
+  view.controls.addButton('Clear', () => clearNotes(), true);
 
   window.app = {
     notes,

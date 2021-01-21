@@ -1,5 +1,5 @@
 (function() {
-  const {element, colorOptions} = utils;
+  const {element, colorOptions, generateID} = utils;
   const {handleMouseDown, handleMouseUp} = dragUtils;
   const {handleResize, stopResize} = resizeUtils;
 
@@ -164,7 +164,7 @@
       removeNote(this.id);
     }
 
-    constructor({id, title, text, color, size, position}, handlers) {
+    constructor({id, title, text, color, size, position}, handlers, isEditing) {
       this.id = id;
       this.data = {};
       this.data.title = title;
@@ -172,7 +172,7 @@
       this.data.color = color;
       this.data.size = size;
       this.data.position = position;
-      this.isEditing = false;
+      this.isEditing = isEditing;
       this.rootNode = null;
       this.nodes = {};
 
@@ -188,8 +188,8 @@
       this.notes = {};
     }
 
-    addNote(note, handlers) {
-      const newNote = new Note(note, handlers);
+    addNote(note, handlers, isEditing) {
+      const newNote = new Note(note, handlers, isEditing);
       this.notes[note.id] = newNote;
       this.rootNode.appendChild(newNote.rootNode);
     }
@@ -203,7 +203,26 @@
     }
   }
 
+  class Controls {
+    addButton(text, onClick, secondary) {
+      const id = generateID('button');
+      const button = element('button', {class: 'button', id}, null, text);
+      button.addEventListener('click', onClick, false);
+
+      if (secondary) button.classList.add('button--secondary');
+
+      this.rootNode.appendChild(button);
+      this.nodes[id] = button;
+    }
+
+    constructor() {
+      this.rootNode = document.getElementById('controls-container');
+      this.nodes = {};
+    }
+  }
+
   window.view = {
     notes: new NotesArray(),
+    controls: new Controls(),
   };
 })();

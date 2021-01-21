@@ -4,8 +4,8 @@
 
   class Note {
     constructor({
-      title,
-      text,
+      title = '',
+      text = '',
       color = main,
       size = [DEFAULT_SIZE, DEFAULT_SIZE],
       position = [50, 50],

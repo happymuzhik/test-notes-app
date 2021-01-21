@@ -39,14 +39,16 @@
     startWidth = parseInt(document.defaultView.getComputedStyle(e.currentTarget).width, 10);
     startHeight = parseInt(document.defaultView.getComputedStyle(e.currentTarget).height, 10);
 
-    document.documentElement.addEventListener('mousemove', resizeNode, false);
+    const container = document.getElementById('notes-container');
+    container.addEventListener('mousemove', resizeNode, false);
   }
 
   function stopResize(e) {
     e.currentTarget.classList.remove('note--is-moving')
     ROOT.classList.remove('root--is-moving')
     currentNode = null;
-    document.documentElement.removeEventListener('mousemove', resizeNode, false);
+    const container = document.getElementById('notes-container');
+    container.removeEventListener('mousemove', resizeNode, false);
   }
 
   window.resizeUtils = {

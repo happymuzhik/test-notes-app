@@ -24,14 +24,16 @@
     const position = getNodePosition(e.currentTarget);
     shiftX = e.pageX - position.left;
     shiftY = e.pageY - position.top;
-    document.addEventListener('mousemove', moveNode, false);
+    const container = document.getElementById('notes-container');
+    container.addEventListener('mousemove', moveNode, false);
   }
 
   function handleMouseUp(e) {
     e.currentTarget.classList.remove('note--is-moving');
     ROOT.classList.remove('root--is-moving');
     currentNode = null;
-    document.removeEventListener('mousemove', moveNode, false);
+    const container = document.getElementById('notes-container');
+    container.removeEventListener('mousemove', moveNode, false);
   }
 
   window.dragUtils = {

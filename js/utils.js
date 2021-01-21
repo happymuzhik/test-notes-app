@@ -38,6 +38,16 @@
     `${prefix}-${Math.random().toString(36).substr(2, 9)}`
   );
 
+  const getRandomNumber = (max) => {
+    return 10 * Math.floor(Math.random() * Math.floor(max));
+  }
+
+  const getRandomPosition = () => {
+    const top = getRandomNumber(40);
+    const left = getRandomNumber(60);
+    return [top, left];
+  }
+
   window.utils = {
     colorOptions,
     DEFAULT_SIZE,
@@ -46,5 +56,6 @@
     element,
     getNodePosition,
     generateID,
+    getRandomPosition,
   }
 })();
