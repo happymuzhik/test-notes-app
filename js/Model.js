@@ -7,7 +7,7 @@
       this.id = generateID('note');
       this.title = title;
       this.text = text;
-      this.color = color;
+      this.color = (colorOptions.includes(color)) ? color : main;
       this.colorOptions = colorOptions;
       this.position = [0, 0];
     }

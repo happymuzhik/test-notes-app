@@ -4,28 +4,68 @@
   const {handleResize, stopResize} = resizeUtils;
 
   class Note {
+    renderForm() {
+      this.nodes.form = element('form', {class: 'note__form'});
+
+      const titleAttrs = {
+        value: this.title,
+        placeholder: 'Title',
+        autocomplete: 'off',
+        type: 'text',
+        name: `${this.id}_title-input`,
+        class: 'note__title-input',
+        required: 'true',
+      }
+      this.nodes.titleInput = element('input', titleAttrs);
+
+      const textAttrs = {
+        placeholder: 'Text',
+        autocomplete: 'off',
+        name: `${this.id}_text-input`,
+        class: 'note__text-input',
+      }
+      this.nodes.textInput = element('textarea', textAttrs, null, this.text);
+
+      this.nodes.form.appendChild(this.nodes.titleInput);
+      this.nodes.form.appendChild(this.nodes.textInput);
+      this.nodes.itemsContainer.appendChild(this.nodes.form);
+    }
+
+    renderBody() {
+      this.nodes.itemsContainer.appendChild(element('h2', {class: 'note__title'}, null, this.title));
+      this.nodes.itemsContainer.appendChild(element('p', {class: 'note__body'}, null, this.text));
+    }
+
     render() {
-      const [width, height] = this.size;
-      const [top, left] = this.position;
-      const style = {
-        width: `${width}px`,
-        height: `${height}px`,
-        top: `${top}px`,
-        left: `${left}px`,
-        backgroundColor: this.color,
-      };
-      this.node = element('div', {class: 'note'}, style);
+      if (this.rootNode) {
+        this.rootNode.innerHTML = null;
+      } else {
+        const [width, height] = this.size;
+        const [top, left] = this.position;
+        const style = {
+          width: `${width}px`,
+          height: `${height}px`,
+          top: `${top}px`,
+          left: `${left}px`,
+          backgroundColor: this.color,
+        };
+        this.rootNode = element('div', {class: 'note'}, style);
+      }
 
-      const itemsContainer = element('div', {class: 'note__items-container'});
-      const dragArea = element('div', {class: 'note__drag-area'});
-      const resizeArea = element('div', {class: 'note__resize-area'});
+      this.nodes.itemsContainer = element('div', {class: 'note__items-container'});
+      this.nodes.dragArea = element('div', {class: 'note__drag-area'});
+      this.nodes.resizeArea = element('div', {class: 'note__resize-area'});
 
-      itemsContainer.appendChild(element('h2', {class: 'note__title'}, null, this.title));
-      itemsContainer.appendChild(element('p', {class: 'note__body'}, null, this.text));
-      itemsContainer.appendChild(dragArea);
-      itemsContainer.appendChild(resizeArea);
+      if (this.isEditing) {
+        this.renderForm();
+      } else {
+        this.renderBody();
+      }
 
-      const colorOptionsContainer = element('div', {class: 'note__color-options'});
+      this.nodes.itemsContainer.appendChild(this.nodes.dragArea);
+      this.nodes.itemsContainer.appendChild(this.nodes.resizeArea);
+
+      this.nodes.colorOptionsContainer = element('div', {class: 'note__color-options'});
       colorOptions.forEach((color, i) => {
         const style = {
           left: `${5 + 15 * i}px`,
@@ -34,28 +74,64 @@
         const colorNode = element('div', {class: 'note__color-option'}, style);
         colorNode.addEventListener('click', () => {
           this.color = color;
-          this.node.style.backgroundColor = color;
+          this.rootNode.style.backgroundColor = color;
         });
-        colorOptionsContainer.appendChild(colorNode);
+        this.nodes.colorOptionsContainer.appendChild(colorNode);
       });
-      dragArea.appendChild(colorOptionsContainer);
+      this.nodes.dragArea.appendChild(this.nodes.colorOptionsContainer);
 
-      const buttonsContainer = element('div', {class: 'note__buttons-container'});
-      dragArea.appendChild(buttonsContainer);
+      this.nodes.buttonsContainer = element('div', {class: 'note__buttons-container'});
+      this.nodes.dragArea.appendChild(this.nodes.buttonsContainer);
 
-      const editButton = element('div', {class: 'note__edit-button'}, null, '&#9998;');
-      buttonsContainer.appendChild(editButton);
+      if (this.isEditing) {
+        this.nodes.editButton = null;
+        this.nodes.removeButton = null;
 
-      const removeButton = element('div', {class: 'note__remove-button'}, null, '&#10006;');
-      removeButton.addEventListener('click', () => this.removeNote(), false);
-      buttonsContainer.appendChild(removeButton);
+        this.nodes.saveButton = element('div', {class: 'note__save-button'}, null, '	&#10004;');
+        this.nodes.saveButton.addEventListener('click', () => this.saveNote(), false);
+        this.nodes.buttonsContainer.appendChild(this.nodes.saveButton);
 
-      this.node.appendChild(itemsContainer);
+        this.nodes.cancelButton = element('div', {class: 'note__cancel-button'}, null, '&#10006;');
+        this.nodes.cancelButton.addEventListener('click', () => this.cancelEdit(), false);
+        this.nodes.buttonsContainer.appendChild(this.nodes.cancelButton);
+      } else {
+        this.nodes.cancelButton = null;
 
-      this.node.addEventListener('mousedown', handleMouseDown, false);
-      this.node.addEventListener('mouseup', handleMouseUp, false);
-      this.node.addEventListener('mousedown', handleResize, false);
-      this.node.addEventListener('mouseup', stopResize, false);
+        this.nodes.editButton = element('div', {class: 'note__edit-button'}, null, '&#9998;');
+        this.nodes.editButton.addEventListener('click', () => this.editNote(), false);
+        this.nodes.buttonsContainer.appendChild(this.nodes.editButton);
+
+        this.nodes.removeButton = element('div', {class: 'note__remove-button'}, null, '&#128465;');
+        this.nodes.removeButton.addEventListener('click', () => this.removeNote(), false);
+        this.nodes.buttonsContainer.appendChild(this.nodes.removeButton);
+      }
+
+      this.rootNode.appendChild(this.nodes.itemsContainer);
+
+      this.rootNode.addEventListener('mousedown', handleMouseDown, false);
+      this.rootNode.addEventListener('mouseup', handleMouseUp, false);
+      this.rootNode.addEventListener('mousedown', handleResize, false);
+      this.rootNode.addEventListener('mouseup', stopResize, false);
+    }
+
+    editNote() {
+      this.isEditing = true;
+      this.render();
+      this.nodes.titleInput.focus();
+    }
+
+    cancelEdit() {
+      this.isEditing = false;
+      this.render();
+    }
+
+    saveNote() {
+      if (this.nodes.form.checkValidity()) {
+        this.isEditing = false;
+        this.title = this.nodes.titleInput.value;
+        this.text = this.nodes.textInput.value;
+        this.render();
+      }
     }
 
     removeNote() {
@@ -70,6 +146,9 @@
       this.color = color;
       this.size = [DEFAULT_SIZE, DEFAULT_SIZE];
       this.position = [50, 50];
+      this.isEditing = false;
+      this.rootNode = null;
+      this.nodes = {};
 
       this.handlers = handlers;
 
@@ -79,22 +158,21 @@
 
   class NotesArray {
     constructor() {
-      this.node = document.getElementById('notes-container');
+      this.rootNode = document.getElementById('notes-container');
       this.notes = {};
     }
 
     addNote(note, handlers) {
       const newNote = new Note(note, handlers);
       this.notes[note.id] = newNote;
-      this.node.appendChild(newNote.node);
+      this.rootNode.appendChild(newNote.rootNode);
     }
 
     removeNote(id) {
       if (id) {
         const note = this.notes[id];
-        this.node.removeChild(note.node);
+        this.rootNode.removeChild(note.rootNode);
         delete(this.notes[id]);
-        console.log(this.notes)
       }
     }
   }
