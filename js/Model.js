@@ -1,6 +1,6 @@
 (function() {
-  const {colorOptions, generateID} = utils;
-  const [main, alt1, alt2] = colorOptions;
+  const {colorOptions, generateID, DEFAULT_SIZE} = utils;
+  const [main] = colorOptions;
 
   class Note {
     constructor(title, text, color = main) {
@@ -9,23 +9,17 @@
       this.text = text;
       this.color = (colorOptions.includes(color)) ? color : main;
       this.colorOptions = colorOptions;
-      this.position = [0, 0];
+      this.size = [DEFAULT_SIZE, DEFAULT_SIZE];
+      this.position = [50, 50];
     }
 
-    setTitle(title) {
+    save({title, text, color, size, position}) {
       this.title = title;
-    }
-
-    setText(text) {
       this.text = text;
-    }
-
-    setColor(color) {
       this.color = color;
-    }
-
-    setPosition(x, y) {
-      this.position = [x, y];
+      this.size = size;
+      this.position = position;
+      console.log('Note saved!', this);
     }
   }
 
