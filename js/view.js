@@ -127,7 +127,7 @@
         this.data.position = [parseInt(top, 10), parseInt(left, 10)];
         this.data.size = [parseInt(width, 10), parseInt(height, 10)];
 
-        const zIndex = this.handlers.getZindex(this.data.zIndex);
+        const zIndex = this.handlers.getZindex();
         this.data.zIndex = zIndex;
         this.rootNode.style.zIndex = zIndex;
 
@@ -185,7 +185,7 @@
       this.data.color = color;
       this.data.size = size;
       this.data.position = position;
-      this.data.zIndex = zIndex;
+      this.data.zIndex = zIndex || handlers.getZindex();
       this.isEditing = isEditing;
       this.rootNode = null;
       this.nodes = {};

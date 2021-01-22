@@ -9,7 +9,7 @@
       color = main,
       size = [DEFAULT_SIZE, DEFAULT_SIZE],
       position = [50, 50],
-      zIndex = 10,
+      zIndex,
     }) {
       this.id = generateID('note');
       this.title = title;
